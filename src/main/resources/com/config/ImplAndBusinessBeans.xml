@@ -41,4 +41,6 @@
 		<bean id="pay_codeBusiness" class="com.icss.business.Pay_codeBusiness">
 			<property name="pay_codeDAO" ref="Pay_codeMapperImpl"></property>
 		</bean>
+		
+	
 </beans>

@@ -72,13 +72,37 @@ public class DepartmentBusiness {
 		Iterator<Department> it  = list.iterator();
 		while(it.hasNext()){
 			if(it.next().getdName().equals(dname)){
-				System.out.println(dname);
+//				System.out.println(dname);
 				return "已存在该部门名称";
-				
 			}
-			
-			
 		}
 		return null;
 	}
+	
+	
+	// 查询所有
+		public List<Department> selectAll() {
+			return departmentDAO.SelectAll();
+		}
+
+		
+		// 查询(按id来查询)
+			public Department selectByPrimaryKey(Integer did) {
+				if (did != 0) {
+					return departmentDAO.selectByPrimaryKey(did);
+				}
+
+				return null;
+			}
+			
+		// 删除
+		public int delete(Integer did) {
+				return departmentDAO.deleteByPrimaryKey(did);	
+		}
+
+		// 修改
+		public int update(Department record) {
+				return departmentDAO.updateByPrimaryKey(record);	
+		}
+	
 }

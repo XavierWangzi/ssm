@@ -4,10 +4,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icss.bean.Department;
 import com.icss.business.DepartmentBusiness;
 
 @Controller
@@ -73,5 +75,34 @@ public class DepartmentConroller {
 		
 		return departmentBusiness.checkdeptname(dname);
 	}
+	
+	/***************************************************************************************/
+	
+	
+
+		//按id查询
+		@RequestMapping("/selectByid.do")
+		public ModelAndView selectByPrimaryKey(HttpServletRequest request){
+			Integer did = Integer.valueOf(request.getParameter("id"));
+			Department  Department = departmentBusiness.selectByPrimaryKey(did);
+			System.out.println("部门的id是："+did);	
+			System.out.println("部门信息是："+Department);
+			return new ModelAndView("UpdateDepartment","Department",Department);
+		}
+		//修改
+		@RequestMapping("/update.do")
+		public String update(@ModelAttribute("Department")  Department Department){
+			departmentBusiness.update(Department);
+			return "Employee_manager";
+		}
+		//删除
+		@RequestMapping("/delete.do")
+		public String delete(HttpServletRequest request){
+			Integer did = Integer.valueOf(request.getParameter("id"));
+			departmentBusiness.delete(did);
+			System.out.println(did);
+			return "Employee_manager";
+		}
+
 
 }

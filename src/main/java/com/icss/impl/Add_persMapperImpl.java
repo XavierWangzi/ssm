@@ -80,5 +80,17 @@ public class Add_persMapperImpl extends BasicSqlSupport implements Add_persMappe
 		// TODO Auto-generated method stub
 		return this.session.update("com.icss.dao.Add_persMapper.updatePwdById", pers);
 	}
+
+	@Override
+	public int update(Add_pers record) {
+		// TODO Auto-generated method stub
+		return this.session.update("com.icss.dao.Add_persMapper.update", record);
+	}
+
+	@Override
+	public List<Add_pers> findAll() {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.Add_persMapper.findAll");
+	}
  
 }

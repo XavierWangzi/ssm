@@ -73,4 +73,14 @@
 	<include refid="Base_Column_List" />
 	 from department 
   </select>
+  
+  
+  <!-- ************************************************************************************ -->
+  <select id="SelectAll" resultMap="BaseResultMap"  >
+	select
+	<include refid="Base_Column_List"  />
+	from add_department
+  </select>
+  
+  
 </mapper>

@@ -1,6 +1,9 @@
 package com.icss.impl;
 
+import java.util.List;
+
 import com.icss.bean.Pay_code;
+import com.icss.bean.SaleRanking;
 import com.icss.dao.Pay_codeMapper;
 import com.icss.util.BasicSqlSupport;
 
@@ -9,7 +12,7 @@ public class Pay_codeMapperImpl extends BasicSqlSupport implements Pay_codeMappe
 	@Override
 	public int deleteByPrimaryKey(Integer cid) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.delete("com.icss.dao.Pay_codeMapper.deleteByPrimaryKey", cid);
 	}
 
 	@Override
@@ -34,13 +37,27 @@ public class Pay_codeMapperImpl extends BasicSqlSupport implements Pay_codeMappe
 	@Override
 	public int updateByPrimaryKeySelective(Pay_code record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.update("com.icss.dao.Pay_codeMapper.updateByPrimaryKeySelective", record);
 	}
 
 	@Override
 	public int updateByPrimaryKey(Pay_code record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.update("com.icss.dao.Pay_codeMapper.updateByPrimaryKey",record);
 	}
+
+	@Override
+	public List<Pay_code> selectAll() {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.Pay_codeMapper.selectAll");
+	}
+
+	@Override
+	public List<SaleRanking> saleRanking(String date) {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.Pay_codeMapper.saleRanking", date);
+	}
+	
+	
 
 }

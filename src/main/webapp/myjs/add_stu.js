@@ -1,9 +1,10 @@
 $(document).ready(function(){
-
+	//默认为隐藏
 	$("#paytime").hide();
 	$("#payli").hide();
 	$("#paymoney").hide(); 
 	$("#payhostel").hide(); 
+
 	
 });
 
@@ -116,5 +117,46 @@ function delectsomeone(){
 	}else{
 		return false;
 	}
+}
+
+function customerByName(){
+	var cusName = $("#cusName").val();
+	if(cusName!=""){
+		$.ajax({
+			type : 'POST',
+			url : 'customer/customersName.do',
+			dataType :'json',
+			async:false,
+			data : { "cusName" : cusName },
+			success : function(data) {
+//				alert(data);
+				if(data!=null&&data.length!=0){
+					var htmlContent = "<tr><th>姓名</th><th>联系方式</th><th>签单交款</th><th>是否收款</th><th>一线销售</th><th>二线销售</th><th>部门</th></tr>";
+					for(var obj in data){
+						var code = data[obj].code;
+						htmlContent +="<tr><td>"+data[obj].uname+"</td>";
+						htmlContent +="<td>"+data[obj].utel+"</td>";
+						if(code!=null){
+							htmlContent +="<td>学费："+code.cpay+" 住宿费："+code.chostel+"</td>";
+							htmlContent +="<td>"+code.cif+"时间为："+code.cctime+"</td>";
+							htmlContent +="<td>"+code.conesale+"</td>";
+							htmlContent +="<td>"+code.ctwosale+"</td>";
+							htmlContent +="<td>"+data[obj].dName+"</td></tr>";
+						}else{
+							htmlContent +="<td></td><td></td><td></td><td></td><td></td></tr>";
+						}
+					}
+					//alert(htmlContent);
+					$("#selectCusTable").html(htmlContent);
+				}else{
+					$("#selectCusTable").html("<tr><td><font color='red'>没有查到相关学生信息！</font></td></tr>");
+				}
+				
+			}
+		});
+		
+		
+	}
+	
 }
 	

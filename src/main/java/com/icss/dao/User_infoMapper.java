@@ -2,6 +2,7 @@ package com.icss.dao;
 
 
 import com.icss.bean.CustomerStauts;
+import com.icss.bean.SelectCusInfo;
 import com.icss.bean.User_info;
 import com.icss.util.PageBean;
 
@@ -23,5 +24,7 @@ public interface User_infoMapper {
     PageBean<User_info> selectAllInfo(int pagenum,int pid);
     
     PageBean<CustomerStauts> selectCustomerStatus(Integer pid,int pagenum);
+    
+    PageBean<SelectCusInfo> selectCusByName(String cusname,int pagenum);
     
 }

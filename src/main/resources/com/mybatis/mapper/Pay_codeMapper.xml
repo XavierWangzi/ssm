@@ -16,6 +16,10 @@
     <result column="carea" property="carea" jdbcType="VARCHAR" />
     <result column="cremark" property="cremark" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap type="com.icss.bean.SaleRanking" id="saleranking">
+  	<result column="codesum" property="name" jdbcType="VARCHAR"/>
+  	<result column="ctwosale" property="momey" jdbcType="VARCHAR"/>
+  </resultMap>
   <sql id="Base_Column_List" >
     cid, uid, ctype, cstime, cctime, cdepartment, conesale, ctwosale, cpay, cif, chostel, 
     carea, cremark
@@ -185,4 +189,18 @@
       cremark = #{cremark,jdbcType=VARCHAR}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectAll"  resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from pay_code
+  </select>
+  
+  <select id="saleRanking" resultMap="saleranking" parameterType="java.lang.String" >
+  <bind name="date" value="'%' + _parameter + '%'" />
+  	select SUM(a.cpay) codesum, a.ctwosale 
+	FROM (
+		SELECT p.cstime,p.ctwosale,p.cpay,p.chostel,u.pid FROM pay_code p JOIN user_info u on p.uid = u.uid WHERE p.cstime LIKE #{date,jdbcType=VARCHAR} AND p.ctwosale is not NULL ) a 
+	GROUP BY a.pid
+  </select>
 </mapper>

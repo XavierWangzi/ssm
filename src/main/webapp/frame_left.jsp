@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="menu">
 			<ul class="top">
 				<li>
-					<a href="index.html" target="main">
+					<a href="frame_main.jsp" target="main">
 						<i class="home"></i><em>管理首页</em>
 					</a>
 				</li>

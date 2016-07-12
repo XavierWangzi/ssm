@@ -2,11 +2,13 @@ package com.icss.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageHelper;
 import com.icss.bean.CustomerStauts;
+import com.icss.bean.SelectCusInfo;
 import com.icss.bean.User_info;
 import com.icss.dao.User_infoMapper;
 import com.icss.util.BasicSqlSupport;
@@ -77,9 +79,18 @@ public class User_infoMapperImpl extends BasicSqlSupport implements User_infoMap
 
 	@Override
 	public PageBean<User_info> selectAllInfo(int pagenum, int pid) {
-		PageHelper.startPage(pagenum, 10);
+		PageHelper.startPage(pagenum, PAGESIZE);
 		List<User_info> list = this.session.selectList("com.icss.dao.User_infoMapper.selectinfoBySale",pid);
 		return new PageBean<User_info>(list);
+	}
+
+	@Override
+	public PageBean<SelectCusInfo> selectCusByName(String cusname, int pagenum) {
+		// TODO Auto-generated method stub
+		System.out.println(cusname+"**********");
+		PageHelper.startPage(pagenum, PAGESIZE);
+		List<SelectCusInfo> list = this.session.selectList("com.icss.dao.User_infoMapper.selectCusByName",cusname);
+		return new PageBean<SelectCusInfo>(list);
 	}
 
 }

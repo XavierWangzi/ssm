@@ -102,4 +102,39 @@ public class Add_persBusiness {
 		return persDAO.updatePwdById(pers);
 	}
 	
+	
+	/************************************************************************************************************/
+	
+	/**  
+     * 获取所有用户列表   
+     */
+	public List<Add_pers> findAll() {
+		
+		return persDAO.findAll();
+	}
+	
+	/**  
+     * 删除   
+     */
+	public int deleteByPrimaryKey(Integer pid) {
+		
+			return persDAO.deleteByPrimaryKey(pid);
+	}
+
+	/**  
+     * 按id查询  
+     */
+	public Add_pers select(Integer pid) {	
+			return persDAO.selectByPrimaryKey(pid);
+	}
+
+	
+	/**  
+     * 修改  
+     */
+	public  int update(Add_pers record){	
+		return persDAO.update(record);
+
+	}
+	
 }

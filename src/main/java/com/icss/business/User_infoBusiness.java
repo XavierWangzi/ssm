@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.icss.bean.Add_pers;
 import com.icss.bean.CustomerStauts;
+import com.icss.bean.SelectCusInfo;
 import com.icss.bean.User_info;
 import com.icss.dao.User_infoMapper;
 import com.icss.util.PageBean;
@@ -29,7 +30,13 @@ public class User_infoBusiness {
 	}
 	
 	public PageBean<User_info> selectAllInfo(int pageNumber,HttpSession session){
-		int pid = ((Add_pers)session.getAttribute("loginper")).getPid();
+		int pid;
+		try{
+			pid = ((Add_pers)session.getAttribute("loginper")).getPid();
+		}catch(NullPointerException e){
+			return new PageBean<User_info>(null);
+		}
+		
 		String part = ((Add_pers)session.getAttribute("loginper")).getpPart();
 		if("0".equals(part)||"2".equals(part)){
 			return user_infoDAO.selectAllInfo(pageNumber);
@@ -56,6 +63,11 @@ public class User_infoBusiness {
 	public int updataCustomerInfo(User_info user_info){
 		//System.out.println("更新数据");
 		return user_infoDAO.updateByPrimaryKeySelective(user_info);
+	}
+	
+	public  PageBean<SelectCusInfo> selectCusByName(String cusname,Integer pagenum){
+		//System.out.println("查选");
+		return user_infoDAO.selectCusByName(cusname, pagenum);
 	}
 	
 

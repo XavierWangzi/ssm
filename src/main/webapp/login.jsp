@@ -207,6 +207,8 @@ margin-top:20px;
 margin-right:21px;
 color: #fff;	
 }
+
+label {color:#fff;}
 </style>
 </head>
 <body>
@@ -216,9 +218,9 @@ color: #fff;
 		<form  action="sale/login.do" method="post" >
 			<input type="text" name="pLoginid" id="u" placeholder="用户名"  required="required"/>
 			<input type="password" name="pPassword" id="p" placeholder="密码"  />
-			<input  type="radio" name="pPart" id="r1" value="0" checked="checked"><label id="yuan">管理员</label>
-			<input  type="radio" name="pPart" id="r2"  value="2"><label id="gao">经理</label>
-			<input  type="radio" name="pPart" id="r3"  value="1"><label id="bo">销售</label>
+			<input  type="radio" name="pPart" id="r1" value="0" checked="checked"><label for="r1" id="yuan">管理员</label>
+			<input  type="radio" name="pPart" id="r2"  value="2"><label id="gao" for="r2">经理</label>
+			<input  type="radio" name="pPart" id="r3"  value="1"><label id="bo" for="r3">销售</label>
 			<button type="submit" id="login" class="btn btn-primary btn-block btn-large">登录</button>
 		</form>
 	</div>

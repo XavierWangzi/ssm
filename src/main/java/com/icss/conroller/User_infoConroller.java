@@ -1,6 +1,9 @@
 package com.icss.conroller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,9 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.icss.bean.Add_pers;
 import com.icss.bean.CustomerStauts;
 import com.icss.bean.Pay_code;
+import com.icss.bean.SaleRanking;
+import com.icss.bean.SelectCusInfo;
 import com.icss.bean.User_info;
 import com.icss.business.Pay_codeBusiness;
 import com.icss.business.User_infoBusiness;
+import com.icss.util.JsonDateValueProcessor;
 import com.icss.util.PageBean;
 
 @Controller
@@ -213,5 +220,48 @@ public class User_infoConroller {
 		Pay_code code = pay_codeBusiness.selectOne(cid);
 		request.setAttribute("codeInfo", code);
 		return "customer/cheques";
+	}
+	
+	/**
+	 * 根据用户姓名查询
+	 */ 
+	
+	@RequestMapping("customersName.do")
+	public @ResponseBody String customerName(HttpServletRequest request){
+		//System.out.println("模糊用户查询");
+		String cusname = request.getParameter("cusName");
+		PageBean<SelectCusInfo> page = user_infoBusiness.selectCusByName(cusname, 1);
+		List<SelectCusInfo> list = page.getList();
+		/*Iterator<SelectCusInfo> it= list.iterator();
+		while(it.hasNext()){
+			SelectCusInfo user = it.next();
+			System.out.println(user.getUname()+"**"+user.getUtel()+"**"+user.getdName()+"**"+user.getCode().getConesale());
+		}*/
+	    JsonConfig jsonConfig = new JsonConfig();  
+	    jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());  
+		JSONArray jsonArray = JSONArray.fromObject(list,jsonConfig);
+		System.out.println(jsonArray.toString());
+		return jsonArray.toString();
+	}
+	
+	
+	/**
+	 * 获取当前时间
+	 */
+	@RequestMapping(value="saleRanking.do" , produces = "text/plain;charset=UTF-8")
+	public @ResponseBody String saleRanking(HttpServletRequest request){
+//		System.out.println("进来另外");
+//		Format format = new SimpleDateFormat("yyyy-MM-dd");
+//      System.out.println(format.format(new Date()));
+        List<SaleRanking> list = pay_codeBusiness.selectSaleRanking();
+        Iterator<SaleRanking> it= list.iterator();
+        //System.out.println("************************************");
+		while(it.hasNext()){
+			SaleRanking user = it.next();
+			System.out.println(user.getName()+"**"+user.getMomey());
+		}
+		//System.out.println("****************************************");
+        JSONArray jsonArray = JSONArray.fromObject(list);
+		return jsonArray.toString();
 	}
 }

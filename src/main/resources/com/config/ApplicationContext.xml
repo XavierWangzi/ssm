@@ -8,10 +8,10 @@
 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 			http://www.springframework.org/schema/context
 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
-			http://www.springframework.org/schema/aop
-			http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
 			http://www.springframework.org/schema/tx
-			http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+			http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-4.1.xsd ">
 			
 	<!-- jdbc.properties文件路径 -->	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -63,6 +63,12 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
+	
+	<!-- maven项目请求不到 注解方式uri -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="order" value="0" />
+	  </bean> -->
+	
 	
 	<import resource="ImplAndBusinessBeans.xml" />
 </beans>

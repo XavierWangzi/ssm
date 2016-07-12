@@ -21,6 +21,22 @@
   	<result column="cid" property="cid" jdbcType="INTEGER"/> 
   </resultMap>
   
+  <resultMap type="com.icss.bean.SelectCusInfo" id="selectCusInfo">
+  	<result column="uname" property="uname" jdbcType="VARCHAR"/>
+  	<result column="utel" property="utel" jdbcType="VARCHAR"/>
+  	<result column="d_name" property="dName" jdbcType="VARCHAR"/>
+  	<association property="code" javaType="com.icss.bean.Pay_code">
+  		<result column="uid" property="uid" jdbcType="INTEGER"/>
+  		<result column="cstime" property="cstime" jdbcType="DATE"/>
+  		<result column="cctime" property="cctime" jdbcType="DATE"/>
+  		<result column="conesale" property="conesale" jdbcType="VARCHAR"/>
+  		<result column="ctwosale" property="ctwosale" jdbcType="VARCHAR"/>
+  		<result column="cpay" property="cpay" jdbcType="INTEGER"/>
+  		<result column="cif" property="cif" jdbcType="VARCHAR"/>
+  		<result column="chostel" property="chostel" jdbcType="INTEGER"/>
+  	</association>
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     uid, uname, uschool, umajor, uclass, utel, uremark, pid
   </sql>
@@ -154,5 +170,13 @@
   <select id="selectCustomerStatus1" resultMap="customerStatusMap" >
   	SELECT distinct u.uid uid1, u.uname,u.utel,p.uid uid2 ,p.cif ,p.cid
    FROM user_info u LEFT JOIN pay_code p on u.uid=p.uid ORDER BY uid1 desc
+  </select>
+  
+  <select id="selectCusByName" parameterType="java.lang.String" resultMap="selectCusInfo">
+  	<bind name="cusname" value="'%' + _parameter + '%'" />
+  	SELECT u.uname,u.utel,pd.* FROM user_info u
+	LEFT JOIN  
+	(SELECT p.uid,p.cstime,p.cctime,p.cif,p.conesale,p.ctwosale,p.cpay,p.chostel,d.d_name FROM pay_code p,department d WHERE p.cdepartment = d.did) AS pd
+ 		on u.uid = pd.uid  WHERE u.uname LIKE #{cusname,jdbcType=VARCHAR}
   </select>
 </mapper>

@@ -15,23 +15,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	<!-- 引入 ECharts 文件 -->
+	<script type="text/javascript" src="<%=basePath%>/js/echarts.js" ></script>
   </head>
   
   <body>
-
-    This is my JSP page. <br>
-    <!-- <a href="result.do">插入</a> -->
-    <form action="login.do" method="post">
-    	<label>用户名：</label><input type="text" />
-    	<label>密码：</label><input type="password" />
-    	<input type="radio" name="role" value="1" checked="checked"/>销售
-		<input type="radio" name="role" value="2" />经理
-		<input type="radio" name="role" value="3" />管理员
-		<input type="submit" value="登录">
-    </form>
+   	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width:600px;heigth:400px;"></div>
+    <script type="text/javascript">
+    	//基于准备好的dom初始化echarts实例
+    	var myChart = echarts.init(document.getElementById('main'));
+    	//指定图表的配置项和数据
+    	var option = {
+    		title:{
+    			text:"报表入门示例"
+    		},
+    		tooltip:{},
+    		legend:{
+    			data:["销量"]
+    		},
+    		xAxis:{
+    			data:["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+    		},
+    		yAxis:{},
+    		Series:[{
+    			name:"销量",
+    			type:"bar",
+    			data:[5,20,36,10,10,20]
+    		}]
+    	}
+    	
+    	myChart.setOption(option);
+    </script>
     
   </body>
 </html>

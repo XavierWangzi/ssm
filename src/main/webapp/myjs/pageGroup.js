@@ -3,15 +3,14 @@ $(document).ready(function(){
 	
 	var pageCount = $("#pagecount").val();//模拟后台总页
 	//生成分页按钮
-	
 	if(pageCount>5){
 		page_icon(1,5,0);
 	}else{
 		page_icon(1,pageCount,0);
 	}
+	
 	//点击分页按钮触发
 	$("#pageGro li").live("click",function(){
-		
 		var pageNum = parseInt($(this).html());//获取当前页数
 		if(pageCount > 5){
 			pageGroup(pageNum,pageCount);
@@ -145,22 +144,26 @@ function jump(pageNum){
 		data : { "pageNum" : pageNum },
 		success : function(data) {
 			//alert(data);
-			var htmlContent = "<tr><th>姓名</th><th>学校</th><th>专业</th><th>年级</th><th>电话</th><th>备注</th><th>操作</th></tr>";
-			for(var obj in data){
-				htmlContent += "<tr><td>" + data[obj].uname + "</td>";
-				htmlContent += "<td>" +  data[obj].uschool + "</td>";
-				htmlContent += "<td>" +  data[obj].umajor + "</td>";
-				htmlContent += "<td>" +  data[obj].uclass + "</td>";
-				htmlContent += "<td>" +  data[obj].utel + "</td>";
-				htmlContent += "<td>" +  data[obj].uremark + "</td>";
-				if(part=='1'){
-					htmlContent += "<td><a href='customer/selectOnecustomer.do?uid="+data[obj].uid +"'>修改 </a></td>";
-				}else{
-					htmlContent += "<td>没有操作权限</td>";
+			if(data!=null){
+				var htmlContent = "<tr><th>姓名</th><th>学校</th><th>专业</th><th>年级</th><th>电话</th><th>备注</th><th>操作</th></tr>";
+				for(var obj in data){
+					htmlContent += "<tr><td>" + data[obj].uname + "</td>";
+					htmlContent += "<td>" +  data[obj].uschool + "</td>";
+					htmlContent += "<td>" +  data[obj].umajor + "</td>";
+					htmlContent += "<td>" +  data[obj].uclass + "</td>";
+					htmlContent += "<td>" +  data[obj].utel + "</td>";
+					htmlContent += "<td>" +  data[obj].uremark + "</td>";
+					if(part=='1'){
+						htmlContent += "<td><a href='customer/selectOnecustomer.do?uid="+data[obj].uid +"'>修改 </a></td>";
+					}else{
+						htmlContent += "<td>没有操作权限</td>";
+					}
+					
 				}
-				
+				$("#customerInfo").html(htmlContent);
+			}else{
+				window.location.href="/login.jsp";
 			}
-			$("#customerInfo").html(htmlContent);
 
 		}
 			//$('#pDepartment').html(data);

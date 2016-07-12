@@ -65,7 +65,7 @@
 						<a href="#customer_status" onclick="checkCustomerStatus(${loginper.pPart})">客户状态</a>
 					</li>
 					<li>
-						<a href="#customer_from">客户来源</a>
+						<a href="#customer_select">客户查询</a>
 					</li>
 					<li>
 						<a href="#customer_log">客户记录</a>
@@ -125,14 +125,13 @@
 								
 							</table>
 						</div>
-						<div id="customer_from">
+						<div id="customer_select">
 							<table width="100%" border="0" cellpadding="8" cellspacing="0"
-								class="tableBasic">
-								<tr>
-									<th width="131">名称</th>
-									<th>内容</th>
-								</tr>
+								class="tableBasic" id="selectCusTable">
 							</table>
+							<div>
+								<input type="text" id="cusName" placeholder="请输入客户名"><input type="button" class="btn" onclick="customerByName()" value="查询">
+							</div>
 						</div>
 						<div id="customer_log">
 							<table width="100%" border="0" cellpadding="8" cellspacing="0"
@@ -147,6 +146,7 @@
 							<table width="100%" border="0" cellpadding="8" cellspacing="0"
 								class="tableBasic">
 								<tr>
+								
 									<th width="131">名称</th>
 									<th>内容</th>
 								</tr>
@@ -156,7 +156,6 @@
 				</div>
 		</div>
 		<div>
-			<!-- <input type="text" ><input type="button" value="查询"> -->
 			<div id="pageGro" class="cb">
 				<div class="pageUp">上一页</div>
 				    <div class="pageList">

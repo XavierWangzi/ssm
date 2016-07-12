@@ -220,7 +220,7 @@
       p_remark = #{pRemark,jdbcType=VARCHAR}
     where pid = #{pid,jdbcType=INTEGER}
   </update>
-
+	<!-- 查询员工信息 -->
   <select id="selectPerInfo" resultMap="BaseResultMap">
   	 select 
     <include refid="Base_Column_List" />
@@ -241,4 +241,25 @@
   <update id="updatePwdById" parameterType="com.icss.bean.Add_pers">
   	UPDATE add_pers set p_password= #{pPassword,jdbcType=VARCHAR} where pid= #{pid,jdbcType=INTEGER}
   </update>
+  
+  
+  <!-- 修改员工信息  -->
+<!--   <update id="update" parameterType="com.icss.bean.Add_pers">
+  		update add_pers
+  		 set 
+  		 p_name = #{pName,jdbcType=VARCHAR},
+  		 did = #{did,jdbcType=INTEGER},
+  		 p_education = #{pEducation,jdbcType=VARCHAR},
+  		 p_tel = #{pTel,jdbcType=VARCHAR},
+  		 p_pos = #{pPos,jdbcType=VARCHAR}
+  		 where pid = #{pid,jdbcType=INTEGER}
+  </update> -->
+  
+	<!-- 查看所有员工信息 -->
+	<select id="findAll" resultMap="BaseResultMap" >
+	 select 
+    <include refid="Base_Column_List" />
+    from add_pers
+	</select>
+ 
 </mapper>

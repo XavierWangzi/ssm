@@ -26,4 +26,8 @@ public interface Add_persMapper {
     String selectPwdById(Integer pid);
     
     int updatePwdById(Add_pers pers);
+    
+    int update(Add_pers record);
+    
+    List<Add_pers>  findAll();  
 }

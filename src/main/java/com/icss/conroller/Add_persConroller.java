@@ -148,5 +148,44 @@ public class Add_persConroller {
 		
 	}
 	
-	
+	/**************************************************************************************************/
+	/**  
+     *编辑用户  
+     * @param user  
+     * @param request  
+     * @return  
+     */  
+    @RequestMapping("/updateUser.do")  
+    public String updateUser(@ModelAttribute("Pers")  Add_pers Pers){
+//    		System.out.println("222222");	
+    		add_persBusiness.update(Pers);
+            return "employee/Employee_manager";  
+       
+    }  
+    /**  
+     * 根据id查询单个用户  
+     * @param id  
+     * @param request  
+     * @return  
+     */  
+    @RequestMapping("/selectByid.do")  
+    public ModelAndView selectUser(HttpServletRequest request){  
+    	Integer cid = Integer.valueOf(request.getParameter("id"));
+//    	System.out.println(cid);
+    	Add_pers  Pers=add_persBusiness.select(cid);
+        return new ModelAndView("employee/UpdateEmployee","Pers",Pers); 
+    }  
+    /**  
+     * 删除用户  
+     * @param id  
+     * @param request  
+     * @param response  
+     */  
+    @RequestMapping("/delUser.do")  
+    public String delUser(HttpServletRequest request){  
+    	 Integer pid =Integer.valueOf(request.getParameter("id"));
+//    	 System.out.println(pid);
+    	 add_persBusiness.deleteByPrimaryKey(pid);
+         return "employee/Employee_manager";  	 	 
+    }
 }

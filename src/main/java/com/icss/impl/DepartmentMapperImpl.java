@@ -11,7 +11,7 @@ public class DepartmentMapperImpl extends BasicSqlSupport implements DepartmentM
 	@Override
 	public int deleteByPrimaryKey(Integer did) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.delete("com.icss.dao.DepartmentMapper.deleteByPrimaryKey", did);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class DepartmentMapperImpl extends BasicSqlSupport implements DepartmentM
 	@Override
 	public Department selectByPrimaryKey(Integer did) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.session.selectOne("com.icss.dao.DepartmentMapper.selectByPrimaryKey", did);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class DepartmentMapperImpl extends BasicSqlSupport implements DepartmentM
 	@Override
 	public int updateByPrimaryKey(Department record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.update("com.icss.dao.DepartmentMapper.updateByPrimaryKey",record);
 	}
 
 	@Override
@@ -52,6 +52,12 @@ public class DepartmentMapperImpl extends BasicSqlSupport implements DepartmentM
 		List<Department> list = this.session.selectList("com.icss.dao.DepartmentMapper.selectDeptInfo");
 		return list;
 
+	}
+
+	@Override
+	public List<Department> SelectAll() {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.DepartmentMapper.SelectAll");
 	}
 
 }

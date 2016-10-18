@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	//根据总页数判断，如果小于5页，则显示所有页数，如果大于5页，则显示5页。根据当前点击的页数生成
-	
 	var pageCount = $("#pagecount").val();//模拟后台总页
+//	alert(allCostomerInfo);
 	//生成分页按钮
 	if(pageCount>5){
 		page_icon(1,5,0);
@@ -18,7 +18,7 @@ $(document).ready(function(){
 			$(this).addClass("on");
 			$(this).siblings("li").removeClass("on");
 		}
-		
+//		alert(pageNum);
 		jump(pageNum);
 	});
 	
@@ -133,40 +133,40 @@ function pageDown(pageNum,pageCount){
 
 
 //跳转到后台
-function jump(pageNum){
-	
-	var url="customer/pageselect.do";
+function jump(pageNum,data){
+	var status = $("#statusLog").val();
 	var part = $("#part").val();
-	$.ajax({
-		type : 'POST',
-		url : url,
-		dataType :'json',
-		data : { "pageNum" : pageNum },
-		success : function(data) {
-			//alert(data);
-			if(data!=null){
-				var htmlContent = "<tr><th>姓名</th><th>学校</th><th>专业</th><th>年级</th><th>电话</th><th>备注</th><th>操作</th></tr>";
-				for(var obj in data){
-					htmlContent += "<tr><td>" + data[obj].uname + "</td>";
-					htmlContent += "<td>" +  data[obj].uschool + "</td>";
-					htmlContent += "<td>" +  data[obj].umajor + "</td>";
-					htmlContent += "<td>" +  data[obj].uclass + "</td>";
-					htmlContent += "<td>" +  data[obj].utel + "</td>";
-					htmlContent += "<td>" +  data[obj].uremark + "</td>";
-					if(part=='1'){
-						htmlContent += "<td><a href='customer/selectOnecustomer.do?uid="+data[obj].uid +"'>修改 </a></td>";
-					}else{
-						htmlContent += "<td>没有操作权限</td>";
+	if(status==="2"){
+		checkCustomerStatus(part,pageNum);
+	}else if(status==="1"){
+		var url="customer/managerement.do";
+		$.ajax({
+			type : 'POST',
+			url : url,
+			dataType :'json',
+			data : { "pageNum" : pageNum },
+			success : function(data) {
+				if(data!=null){
+					var htmlContent = "<tr><th>姓名</th><th>性别</th><th>电话</th><th>qq</th><th>学校</th><th>专业</th><th>年级</th><th>操作</th></tr>";
+					for(var obj in data){
+						htmlContent += "<tr><td>" + data[obj].crname + "</td>";
+						htmlContent += "<td>" +  data[obj].crsex + "</td>";
+						htmlContent += "<td>" +  data[obj].crtel + "</td>";
+						htmlContent += "<td>" +  data[obj].cronline + "</td>";
+						htmlContent += "<td>" +  data[obj].crschool + "</td>";
+						htmlContent += "<td>" +  data[obj].crmajor + "</td>";
+						htmlContent += "<td>" +  data[obj].crgrade + "</td>";
+						htmlContent += "<td><a href='customer/selectOnecustomer.do?crid=" +  data[obj].crid + "'>修改</a></td></tr>";
 					}
-					
+					$("#customerInfo").html(htmlContent);
+				}else{
+					window.location.href="/login.jsp";
 				}
-				$("#customerInfo").html(htmlContent);
-			}else{
-				window.location.href="/login.jsp";
 			}
-
-		}
-			//$('#pDepartment').html(data);
-		
-	});
+			
+		});
+	}
+	
+	
+	
 }

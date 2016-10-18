@@ -16,10 +16,10 @@
 			http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
 			http://www.springframework.org/schema/mvc
 			http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd ">
-		
-		
+			
 		<!-- 启动注解驱动的SpringMVC 功能 注册请求URL和注解pojo类方法的映射 -->	
 		<mvc:annotation-driven />
+		
 		<context:annotation-config />	
 		
 		<!-- 默认首页 -->
@@ -38,17 +38,6 @@
     		<!-- <property name="viewNames" value="jsp*"/>    -->
 		</bean>
 		
-		
-		<!-- 拦截器  -->
-		<mvc:interceptors>  
-	        <mvc:interceptor>  
-	            <!-- 需拦截的地址 -->  
-	            <mvc:mapping path="/*.do" />  
-            <!-- 需排除拦截的地址 -->  
-            <mvc:exclude-mapping path="/login.jsp"/>  
-            <bean class="com.icss.interceptor.LoginInterceptor" />  
-        </mvc:interceptor>  
-    </mvc:interceptors>  
 		<!-- 文件上传  -->
 		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 			<!-- set the max upload size 100MB -->

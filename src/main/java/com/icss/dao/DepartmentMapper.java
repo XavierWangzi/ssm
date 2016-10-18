@@ -3,6 +3,7 @@ package com.icss.dao;
 import java.util.List;
 
 import com.icss.bean.Department;
+import com.icss.util.PageBean;
 
 public interface DepartmentMapper {
     int deleteByPrimaryKey(Integer did);
@@ -19,5 +20,5 @@ public interface DepartmentMapper {
     
     List<Department> selectDeptInfo();
     
-    List<Department> SelectAll();
+    PageBean<Department> selectAll(int pagenum);
 }

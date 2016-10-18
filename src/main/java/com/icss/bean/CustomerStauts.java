@@ -1,48 +1,47 @@
 package com.icss.bean;
 
 public class CustomerStauts {
-	private Integer uid1;
-	private Integer uid2;
-	private String cif;
-	private String uname;
-	private String utel;
+	private Integer crid;
+	private Integer eid;
+	private String crname;
+	private String crtel;
+	private String cronline;
 	private Integer cid;
-
+	public Integer getCrid() {
+		return crid;
+	}
+	public void setCrid(Integer crid) {
+		this.crid = crid;
+	}
+	public Integer getEid() {
+		return eid;
+	}
+	public void setEid(Integer eid) {
+		this.eid = eid;
+	}
+	public String getCrname() {
+		return crname;
+	}
+	public void setCrname(String crname) {
+		this.crname = crname;
+	}
+	public String getCrtel() {
+		return crtel;
+	}
+	public void setCrtel(String crtel) {
+		this.crtel = crtel;
+	}
+	public String getCronline() {
+		return cronline;
+	}
+	public void setCronline(String cronline) {
+		this.cronline = cronline;
+	}
 	public Integer getCid() {
 		return cid;
 	}
 	public void setCid(Integer cid) {
 		this.cid = cid;
-	}
-	public String getUname() {
-		return uname;
-	}
-	public void setUname(String uname) {
-		this.uname = uname;
-	}
-	public String getUtel() {
-		return utel;
-	}
-	public void setUtel(String utel) {
-		this.utel = utel;
-	}
-	public Integer getUid1() {
-		return uid1;
-	}
-	public void setUid1(Integer uid1) {
-		this.uid1 = uid1;
-	}
-	public Integer getUid2() {
-		return uid2;
-	}
-	public void setUid2(Integer uid2) {
-		this.uid2 = uid2;
-	}
-	public String getCif() {
-		return cif;
-	}
-	public void setCif(String cif) {
-		this.cif = cif;
 	}
 	
 	

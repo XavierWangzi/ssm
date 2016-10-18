@@ -4,10 +4,11 @@
   <resultMap id="BaseResultMap" type="com.icss.bean.Department" >
     <id column="did" property="did" jdbcType="INTEGER" />
     <result column="d_name" property="dName" jdbcType="VARCHAR" />
+    <result column="d_address" property="dAddress" jdbcType="VARCHAR" />
     <result column="d_remark" property="dRemark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    did, d_name, d_remark
+    did, d_name, d_address, d_remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,9 +21,9 @@
     where did = #{did,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.icss.bean.Department" >
-    insert into department (did, d_name, d_remark
+    insert into department (did, d_name, d_address, d_remark
       )
-    values (#{did,jdbcType=INTEGER}, #{dName,jdbcType=VARCHAR}, #{dRemark,jdbcType=VARCHAR}
+    values (#{did,jdbcType=INTEGER}, #{dName,jdbcType=VARCHAR}, #{dAddress,jdbcType=VARCHAR}, #{dRemark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.icss.bean.Department" >
@@ -33,6 +34,9 @@
       </if>
       <if test="dName != null" >
         d_name,
+      </if>
+      <if test="dAddress != null" >
+        d_address,
       </if>
       <if test="dRemark != null" >
         d_remark,
@@ -45,6 +49,9 @@
       <if test="dName != null" >
         #{dName,jdbcType=VARCHAR},
       </if>
+      <if test="dAddress != null" >
+        #{dAddress,jdbcType=VARCHAR},
+      </if>
       <if test="dRemark != null" >
         #{dRemark,jdbcType=VARCHAR},
       </if>
@@ -56,6 +63,9 @@
       <if test="dName != null" >
         d_name = #{dName,jdbcType=VARCHAR},
       </if>
+      <if test="dAddress != null" >
+        d_address = #{dAddress,jdbcType=VARCHAR},
+      </if>
       <if test="dRemark != null" >
         d_remark = #{dRemark,jdbcType=VARCHAR},
       </if>
@@ -64,23 +74,16 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.icss.bean.Department" >
     update department
-    set d_name = #{dName,jdbcType=VARCHAR},
+    set d_name = #{dName,jdbcType=VARCHAR}
+      d_address = #{dAddress,jdbcType=VARCHAR}
       d_remark = #{dRemark,jdbcType=VARCHAR}
     where did = #{did,jdbcType=INTEGER}
   </update>
+  
   <select id="selectDeptInfo" resultMap="BaseResultMap">
   	SELECT 
 	<include refid="Base_Column_List" />
 	 from department 
-  </select>
-  
-  
-  <!-- ************************************************************************************ -->
-  <select id="SelectAll" resultMap="BaseResultMap"  >
-	select
-	<include refid="Base_Column_List"  />
-	from add_department
-  </select>
-  
+  </select>  
   
 </mapper>

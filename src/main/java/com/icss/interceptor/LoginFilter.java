@@ -2,52 +2,43 @@ package com.icss.interceptor;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginFilter extends HttpServlet implements Filter {
+import org.springframework.web.filter.OncePerRequestFilter;  
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class LoginFilter extends OncePerRequestFilter  {
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		HttpServletRequest req = (HttpServletRequest)request;    
-        HttpServletResponse res = (HttpServletResponse)response;    
-        String path = req.getContextPath();  
-        String indexPath = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+path+ "/login.jsp";  
-        System.out.println(indexPath);
-        System.out.println(req.getRequestURI());
-        if(req.getRequestURI().endsWith("login.do"))  
-        {  
-            chain.doFilter(request, response);   
-//            return;  
-        }  
-          
-        Object loginuser = req.getSession().getAttribute("loginper");    
-        System.out.println("********"+loginuser);
-        if(loginuser == null){  
-            res.sendRedirect(indexPath);    
-            return;    
-        }  
-        chain.doFilter(request, response); 
-	}
+
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
+	protected void doFilterInternal(HttpServletRequest request,
+			HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
 		
-	}
+		Object obj =  (Integer) request.getSession().getAttribute("logged"); 
+		String url=request.getRequestURI(); 
+		if(obj!=null){
+			System.out.println("obj"+url);
+			if(url!=null && !url.equals("")){ 
+				if(url.indexOf("login.jsp")>=0 || url.equals("/ssm-001/")){
+//					System.out.println("------------------------------已经登录不允许访问login.jsp-------------------------------");
+					response.sendRedirect("/ssm-001/emp/adminindex.do");  
+					chain.doFilter(request, response);
+					return ;  
+				}else{
+/*					System.out.println("------------------------------------已经登录但不跳转-------------------------------");
+*/					chain.doFilter(request, response);
+					return ;
+				}
+			}
+	    }else{
+/*			System.out.println("------------------------------------尚未登录-------------------------------");
+*/			chain.doFilter(request, response);
+			return;  
+		}
+	}  
 
 }

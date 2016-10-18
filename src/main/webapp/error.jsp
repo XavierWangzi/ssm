@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<h2>Sorry, the site now can not be accessed. </h2>
 		<font color="#666666">你请求访问的页面，暂时找不到，我们建议你返回首页，谢谢！</font><br /><br />
 		<div class="button">
-			<a href="login.jsp" title="进入首页" target="_blank">进入首页</a>
+			<a href="empinfo/checklogin.do" title="进入首页" target="_parent">进入首页</a>
 		</div>
 	</div>
    

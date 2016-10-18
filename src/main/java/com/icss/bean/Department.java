@@ -4,6 +4,8 @@ public class Department {
     private Integer did;
 
     private String dName;
+    
+    private String dAddress;
 
     private String dRemark;
 
@@ -30,4 +32,14 @@ public class Department {
     public void setdRemark(String dRemark) {
         this.dRemark = dRemark == null ? null : dRemark.trim();
     }
+
+	public String getdAddress() {
+		return dAddress;
+	}
+
+	public void setdAddress(String dAddress) {
+		this.dAddress = dAddress;
+	}
+    
+    
 }

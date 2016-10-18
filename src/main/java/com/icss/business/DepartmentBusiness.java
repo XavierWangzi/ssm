@@ -2,11 +2,9 @@ package com.icss.business;
 
 import java.util.Iterator;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.icss.bean.Department;
 import com.icss.dao.DepartmentMapper;
+import com.icss.util.PageBean;
 
 public class DepartmentBusiness {
 	private DepartmentMapper departmentDAO = null;
@@ -19,27 +17,15 @@ public class DepartmentBusiness {
 		this.departmentDAO = departmentDAO;
 	}
 
-	public int insert(HttpServletRequest request){
-		Department department = new Department();
-		department.setDid(Integer.parseInt(request.getParameter("did")));
-		department.setdName(request.getParameter("dName"));
-		department.setdRemark(request.getParameter("dRemark"));
-		
-		return departmentDAO.insert(department);
+	public int insert(Department dept) {
+		return departmentDAO.insertSelective(dept);
 	}
-	
-	public StringBuilder select(){
-		
+
+	public StringBuilder select() {
+
 		List<Department> list = departmentDAO.selectDeptInfo();
-//		Iterator<Department> it = list.iterator();
-//		System.out.println("这里取到查询出来的集合");
-//		while(it.hasNext()){
-//			System.out.println(it.next().getDid()+" : "+it.next().getdName() +"-------"+it.next().getdRemark());
-//		}
-//		System.out.println(list.size());
-//		
-		
-		StringBuilder sbHtml = new StringBuilder("<option value='0'>请选择</option>");
+		StringBuilder sbHtml = new StringBuilder();
+
 		for (Department department : list) {
 			Integer did = department.getDid();
 			String dname = department.getdName();
@@ -49,60 +35,69 @@ public class DepartmentBusiness {
 			sbHtml.append(dname);
 			sbHtml.append("</option>");
 		}
-		//System.out.println(sbHtml.toString());
+		System.out.println(sbHtml.toString());
 		return sbHtml;
 	}
-	
-	public String checkdeptno(String did){
-		
+
+	public String checkdeptno(String did) {
+
 		List<Department> list = departmentDAO.selectDeptInfo();
-		Iterator<Department> it  = list.iterator();
-		while(it.hasNext()){
-			if(it.next().getDid().toString().equals(did)){
+		Iterator<Department> it = list.iterator();
+		while (it.hasNext()) {
+			if (it.next().getDid().toString().equals(did)) {
 				return "已存在该编号";
 			}
 		}
 		return null;
-		
+
 	}
-	
-	public String checkdeptname(String dname){
-		
+
+	public String checkdeptname(String dname) {
+
 		List<Department> list = departmentDAO.selectDeptInfo();
-		Iterator<Department> it  = list.iterator();
-		while(it.hasNext()){
-			if(it.next().getdName().equals(dname)){
-//				System.out.println(dname);
+		Iterator<Department> it = list.iterator();
+		while (it.hasNext()) {
+			if (it.next().getdName().equals(dname)) {
+				// System.out.println(dname);
 				return "已存在该部门名称";
 			}
 		}
 		return null;
 	}
+
+	public List<Department> getDeptinfo(){
+		return departmentDAO.selectDeptInfo();
+	}
 	
+	/*******************************************cq***********************************************/
 	
 	// 查询所有
-		public List<Department> selectAll() {
-			return departmentDAO.SelectAll();
+	public List<Department> selectAll() {
+		return departmentDAO.selectDeptInfo();
+	}
+
+	// 查询(按id来查询)
+	public Department selectByPrimaryKey(Integer did) {
+		if (did != 0) {
+			return departmentDAO.selectByPrimaryKey(did);
 		}
 
-		
-		// 查询(按id来查询)
-			public Department selectByPrimaryKey(Integer did) {
-				if (did != 0) {
-					return departmentDAO.selectByPrimaryKey(did);
-				}
+		return null;
+	}
 
-				return null;
-			}
-			
-		// 删除
-		public int delete(Integer did) {
-				return departmentDAO.deleteByPrimaryKey(did);	
-		}
+	// 删除
+	public int delete(Integer did) {
+		return departmentDAO.deleteByPrimaryKey(did);
+	}
 
-		// 修改
-		public int update(Department record) {
-				return departmentDAO.updateByPrimaryKey(record);	
-		}
-	
+	// 修改
+	public int update(Department record) {
+		return departmentDAO.updateByPrimaryKeySelective(record);
+	}
+
+	public PageBean<Department> selectAllInfo(int pageNumber) {
+
+		return departmentDAO.selectAll(pageNumber);
+	}
+
 }

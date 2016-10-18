@@ -27,8 +27,7 @@ function check_editPerInfo(){
 	}
 }
 
-function checkPwd(pid){
-//	alert("45646");
+function checkPwd(eid){
 	var flag = 0 ;
 	var oldPwd = $("#oldPwd").val();
 	//alert(oldPwd);
@@ -36,18 +35,22 @@ function checkPwd(pid){
 		alert("两次输入的确认密码不一致");
 		return false;
 	}
-	var url = "sale/checkPwd.do";
+	var url = "user/editPwd.do";
 	$.ajax({
 		type : 'POST',
 		url : url,
 		dataType :'text',
 		async:false,//你用post请求传值到另一个页面后台，但是页面一加载你的ajax就已经执行过了，传值接收是在后台才完成的，这时候就请求不到数据，所以可以考虑把ajax请求改为同步试试。(为true时为异步)
-		data : {"oldPwd":oldPwd ,"pid":pid},
+		data : {"oldPwd":oldPwd ,"eid":eid},
 		success : function(data) {
 			if(data=="yes"){
 				flag=1;
+			}else{
+				alert(data);
+				$("#oldPwd").select();
+				$("#oldPwd").focus();
 			}
-			alert(data);
+			
 		}
 	});
 	if(flag==1){

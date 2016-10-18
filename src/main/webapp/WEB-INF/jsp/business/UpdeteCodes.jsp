@@ -12,81 +12,97 @@
 <link href="<%=basePath %>css/public.css" rel="stylesheet" type="text/css">
 <link href=" <%=basePath %>css/add_stu.css" rel="stylesheet" type="text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script type="text/javascript" src="<%=basePath %>js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/global.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/jquery.autotextarea.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/jquery.tab.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/add_stu.js"></script>
-<title>Insert title here</title>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("#back").hide();
-		$("#add_stu").hide();
-		
-	})
-</script>
+<title>业务管理</title>
 </head>
 <body>
 	<div id="dcMain">
    	<!-- 当前位置 -->
 		<div id="urHere">长沙ETC客户关系管理中心<b>></b><strong>业务管理</strong></div>   
 		<div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-	    	<h3>修改收款信息</h3>
-		    <script type="text/javascript">
-		     	$(function(){ $(".idTabs").idTabs(); });
-		    </script>
-			<div class="idTabs">
-				<ul class="tab">
-					<li>
-						<a href="#customer_info">修改收款信息</a>
-					</li>
-				</ul>
-			</div>
+	    	<h3>修改签单信息</h3>
+		   
 	<div style="text-align: right; cursor: default; height: 20px;"></div>	
-			<form  action="updatebyid.do" method="post" id="fm"> 
-					<input type="hidden" name="cid" value="${code.cid }">
+			<form  action="../paycode/updatebyid.do" method="post" id="fm"> 
+					<input type="hidden" name="cid" value="${code.cid}">
 					<table width="60%" border="0" cellpadding="8" cellspacing="0"
-								class="tableBasic" align="center">								
-							<tr>
-									<td  align="center">签单时间</td>
+								class="tableBasic" align="center">	
+								<tr>
+									<td>客户姓名</td>
 									<td>
-										<input type="text" maxlength="30"  name="cstime" id="cstime" value="${code.cstime}" >
+										${crname}
+									</td>
+								</tr>							
+								<tr>
+									<td>签单时间</td>
+									<td>
+										<input type="text" maxlength="30"  name="ctime" id="cstime" value="${code.ctime}" >
 									</td>
 								</tr>
 								<tr>
-									<td  align="center">被签单人</td>
+									<td>销售</td>
 									<td>
-										<input type="text" name="cusers" id="cusers" value="${code.cusers}" >
+										<select name="sale">
+											<c:forEach items="${allemp}" var="emp" >	
+												<c:choose>
+						 						<c:when test="${emp.eid eq code.sale }"> 
+						 							<option selected value="${emp.eid}">${emp.ename}</option>
+						 						</c:when>
+						 						<c:otherwise>
+				 									<option  value="${emp.eid}" >${emp.ename}</option>	
+				 								</c:otherwise>
+				 							</c:choose>							
+											</c:forEach>	
+										</select>																		
 									</td>
 								</tr>
 								<tr>
-									<td  align="center">签单部门</td>
+									<td>签单类型</td>
 									<td>
-										<input type="text" name="cdepartment" id="cdepartment"  value="${code.cdepartment}">
+									<select name="ctype">
+										<c:forEach items="${allbustype}" var="type" >
+											<c:choose>
+						 						<c:when test="${type.btid eq code.ctype }"> 
+						 							<option selected value="${type.btid}">${type.btname}</option>
+						 						</c:when>
+						 						<c:otherwise>
+				 									<option  value="${type.btid}" >${type.btname}</option>
+				 								</c:otherwise>
+				 							</c:choose>	
+			 							</c:forEach>
+									</select>
 									</td>
 								</tr>
 								<tr>
-									<td  align="center">签单类型</td>
+									<td>签单区域</td>
 									<td>
-										<input type="text" name="ctype" id="ctype" value="${code.ctype}">
+									<select name="carea" >
+										<c:forEach items="${allareaname}" var="area" >
+											<c:choose>
+						 						<c:when test="${area.aid eq code.carea }"> 
+						 							<option selected value="${area.aid}">${area.aname}</option>
+						 						</c:when>
+					 						<c:otherwise>
+			 									<option value="${area.aid}">${area.aname}</option>	
+			 								</c:otherwise>
+			 								</c:choose>
+										</c:forEach>	
+									</select>
+									
 									</td>
 								</tr>
 								<tr>
-									<td align="center">签单缴费</td>
+									<td>应缴费</td>
 									<td>
-										<input type="text" name="cpay" id="cpay" value="${code.cpay}" >
+										<input type="text" name="creceivables" id="cpay" value="${code.creceivables}">
 									</td>
 								</tr>
+							
 								<tr>
-									<td  align="center">住&nbsp;宿&nbsp;费</td>
+									<td>备注</td>
 									<td>
-										<input type="text" name="chostel" id="chostel" value="${code.chostel}" >
-									</td>
-								</tr>
-								<tr>
-									<td  align="center">签单区域</td>
-									<td>
-										<input type="text" name="carea" id="carea" value="${code.carea}">
+										<input type="text" name="remark" id="carea" value="${code.cremark}"  >
 									</td>
 								</tr>
 								<tr>
@@ -98,6 +114,5 @@
 				</form>
 			</div>		
 		</div>
-	</div>
 </body>
 </html>

@@ -17,13 +17,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link href=" <%=basePath %>css/public.css" rel="stylesheet" type="text/css">
-	<%-- <link href=" <%=basePath %>css/add_stu.css" rel="stylesheet" type="text/css"> --%>
-	<script type="text/javascript" src="<%=basePath %>js/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="<%=basePath %>js/global.js"></script>
-	<%-- <script type="text/javascript" src="<%=basePath %>js/jquery.autotextarea.js"></script> --%>
+	<script type="text/javascript" src="<%=basePath%>js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="<%=basePath %>js/jquery.tab.js"></script>
 	<script type="text/javascript" src="<%=basePath %>myjs/add_stu.js"></script>
 	<script type="text/javascript" src="<%=basePath %>myjs/manager.js"></script>
+
   </head>
   	
   <body>
@@ -34,7 +32,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
 	    	<h3>管理员管理</h3>
 		    <script type="text/javascript">
-		     	$(function(){ $(".idTabs").idTabs(); });
+		     	$(function(){ 
+		     		$(".idTabs").idTabs();
+		     		
+		     	});
 		    </script>
 			<div class="idTabs">
 					<ul class="tab">
@@ -44,55 +45,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li>
 							<a href="#add_dept">新增部门</a>
 						</li>
-						<li>
+						<!-- <li>
 							<a href="#add_user">添加角色</a>
-						</li>
+						</li> -->
 					</ul>
 					<div class="add_sale">
-						<form action="sale/add.do" method="post" onsubmit="return check_addSale()">
+						<form action="admin/add.do" method="post" onsubmit="return check_addSale()">
 							<div id="add_sale">
 								<table width="100%" border="0" cellpadding="8" cellspacing="0"
 									class="tableBasic">
 									<tr>
 					 					<td>员工姓名:</td>
-					 					<td><input type="text" name="pName" id="pName" maxlength="20" onkeyup="value=value.replace(/[ -~]/g,'')" onkeydown="if(event.keyCode==13)event.keyCode=9"/ required autofocus></td>
-					 				</tr>
-					 				<tr>
+					 					<td><input type="text" name="ename" id="ename" maxlength="20" onkeyup="value=value.replace(/[ -~]/g,'')" onkeydown="if(event.keyCode==13)event.keyCode=9"/ required autofocus></td>
 					 					<td>性别:</td>
 					 					<td>
-					 						<input type="radio" name="pSex" id="pSex" value="男" checked="checked"/>男
+					 						<input type="radio" name="esex" id="pSex" value="男" checked="checked"/>男
 					 						&nbsp;&nbsp;
-					 						<input type="radio" name="pSex" id="pSex" value="女" />女
+					 						<input type="radio" name="esex" id="pSex" value="女" />女
 					 					</td>
 					 				</tr>
+
 					 				<tr>
 					 					<td>所属部门:</td>
 					 					<td>
-						 					<select name="pDepartment" id="pDepartment">
-						 						<!-- <option value="1">销售一部</option>
-						 						<option value="2">销售二部</option>
-						 						<option value="3">销售三部</option> -->
+						 					<select name="did" id="pDepartment" onchange="superp()">
 						 					</select>
 						 				</td>
+						 				<td>直属上级：</td>
+					 					<td>
+					 						<select name="superiorid" id="superiorid" >
+					 							<option value="1">boss</option>
+					 						</select>
+					 					</td>
+						 				
 					 				</tr>
+
+					 				<tr>
+					 					<td>入职时间:</td>
+					 					<td><input type="text" name="entrytime" id="datePicker" class="date_picker" placeholder="日期格式为2016-02-10" /></td>
+					 					<td>卡号:</td>
+					 					<td><input type="text" name="ecard" id="ecard" maxlength="21" onkeyup="" required autofocus /></td>
+					 				</tr>
+
 					 				<tr>
 					 					<td>联系电话:</td>
-					 					<td><input type="text" name="pTel" id="pTel" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')" required autofocus /></td>
+					 					<td><input type="text" name="etel" id="etel" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')" required autofocus /></td>
+					 					<td>工作邮箱:</td>
+					 					<td><input type="text" name="email" id="email" maxlength="20" required autofocus /></td>
 					 				</tr>
 					 				<tr>
-					 					<td>工作邮箱:</td>
-					 					<td><input type="text" name="pPos" id="pPos" maxlength="20" required autofocus /></td>
 					 				</tr>
 					 				<tr>
 					 					<td>身份证号码:</td>
-					 					<td><input type="text" name="pCardid" maxlength="18" id="pCardid" required autofocus /></td>
+					 					<td><input type="text" name="ecardid" maxlength="18" id="ecardid" required autofocus /></td>
+					 					<td>生日:</td>
+					 					<td><input type="text" name="ebrithday" id="ebrithday" maxlength="11" onkeyup="" required autofocus /></td>
 					 				</tr>
-					 				
+
+					 				<tr>
+					 					<td>职务:</td>
+					 					<td><input type="text" name="ejob" maxlength="18" id="ejob" required autofocus /></td>
+					 					<td>婚姻:</td>
+					 					<td><input type="text" name="emariage" maxlength="18" id="emariage" required autofocus /></td>
+					 				</tr>
+					 			
+					 				<tr>
+					 					<td>住址:</td>
+					 					<td><input type="text" name="address" maxlength="18" id="address"  autofocus /></td>
+					 					<td>学历:</td>
+					 					<td><input type="text" name="education" maxlength="18" id="education" required autofocus /></td>
+					 				</tr>
 								</table>
 								<table width="100%" border="0" cellpadding="8" cellspacing="0"
 								class="tableBasic">
 									<tr>
-										
 										<td><input type="hidden" name="token" value="24760807" />
 											<input name="submit" class="btn" type="submit" value="确定" />
 											<input name="cancle" class="btn" type="reset" value="取消" />
@@ -106,12 +132,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<table width="100%" border="0" cellpadding="8" cellspacing="0"
 									class="tableBasic">
 									<tr>
-										<td width="30%">部门编号</td>
-										<td><input type="text" name="did" id="did" onfocus="checkDeptno()" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" required autofocus />&nbsp;&nbsp;<span id="deptno"></span></td>
-									</tr>
-									<tr>
 										<td>部门名称</td>
 										<td><input type="text" name="dName" id="dName" onfocus="checkDeptname()" maxlength="20" onkeyup="value=value.replace(/[ -~]/g,'')" onkeydown="if(event.keyCode==13)event.keyCode=9" required autofocus /></td>
+									</tr>
+									<tr>
+										<td>部门地址</td>
+										<td><input type="text" name="dAddress" id="dAddress" onfocus="checkDeptname()" maxlength="20" onkeyup="value=value.replace(/[ -~]/g,'')" onkeydown="if(event.keyCode==13)event.keyCode=9" required autofocus /></td>
 									</tr>
 									<tr>
 										<td>部门描述</td>
@@ -130,9 +156,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</table>
 							</div>
 							</form>
-							<form action="sale/user.do" method="post" onsubmit="return checkPerName()">
+							<!--<form action="sale/user.do" method="post" onsubmit="return checkPerName()">
 							<div id="add_user">
-								<table width="100%" border="0" cellpadding="8" cellspacing="0"
+								 <table width="100%" border="0" cellpadding="8" cellspacing="0"
 									class="tableBasic">
 									<tr>
 										<td>姓名</td>
@@ -162,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</tr>
 								</table>
 							</div>
-						</form>
+						</form> -->
 					</div>
 				</div>
 	  	</div>

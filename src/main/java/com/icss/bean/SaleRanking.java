@@ -1,18 +1,29 @@
 package com.icss.bean;
 
 public class SaleRanking {
-	private String name;
-	private String momey;
-	public String getName() {
-		return name;
+	private String ename;
+	private String dname;
+	private Long money;
+
+	
+	public String getEname() {
+		return ename;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setEname(String ename) {
+		this.ename = ename;
 	}
-	public String getMomey() {
-		return momey;
+	public String getDname() {
+		return dname;
 	}
-	public void setMomey(String momey) {
-		this.momey = momey;
+	public void setDname(String dname) {
+		this.dname = dname;
 	}
+	public Long getMoney() {
+		return money;
+	}
+	public void setMoney(Long money) {
+		this.money = money;
+	}
+
+
 }

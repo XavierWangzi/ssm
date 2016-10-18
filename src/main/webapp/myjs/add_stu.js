@@ -5,8 +5,45 @@ $(document).ready(function(){
 	$("#paymoney").hide(); 
 	$("#payhostel").hide(); 
 
+	$(".tcdPageCode:eq(0)").createPage({
+	    pageCount:$("#pagecount").val(),
+	    current:1,
+	    backFn:function(p){
+	    	$.ajax({
+	    		type : 'POST',
+	    		url : 'customer/cuspage.do',
+	    		dataType :'json',
+	    		async:false, //这是重要的一步，防止重复提交的
+	    		data : { "pagenum" : p },
+	    		success : function(data) {
+	    			if(data!=null || data.length>0){
+	    				var htmlcontext = "";
+	    				for(var obj in data){
+	    					htmlcontext +="<tr><td>&nbsp;&nbsp;<input type='checkbox' value='"+data[obj].crid+"' name='complete_checkbox'></td>"
+	    					htmlcontext +="<td><a href='customer/updatecustrunonjsp.do?crid="+data[obj].crid+"'>"+data[obj].crname+"</a></td>"
+	    					htmlcontext +="<td>"+data[obj].crsex+"</td>"
+	    					htmlcontext +="<td>"+data[obj].cdbrithday+"</td>"
+	    					htmlcontext +="<td>"+data[obj].cdhometown+"</td>"
+	    					htmlcontext +="<td>"+data[obj].cdnation+"</td>"
+	    					htmlcontext +="<td>"+data[obj].cdlandscape+"</td>"
+	    					htmlcontext +="<td>"+data[obj].cdeducation+"</td>"
+	    					htmlcontext +="<td>"+data[obj].crschool+"</td>"
+	    					htmlcontext +="<td>"+data[obj].crmajor+"</td>"
+	    					htmlcontext +="<td>"+data[obj].crtel+"</td>"
+	    					htmlcontext +="<td>"+data[obj].csname+"</td></tr>"
+	    				}
+	    			}
+	    			
+	    			$("#customerinfotable").find("tbody").html(htmlcontext);
+	    		}
+	    		
+	    	});
+	    }
+	});
 	
 });
+
+
 
 //弹出隐藏层
 function ShowDiv(show_div,bg_div){
@@ -30,21 +67,18 @@ function checkCoutomer(){
 	
 	if($('#ispay').is(":checked")){
 		//$('#cstime').date_input();
-		if($('#cstime').val().length==0){
-			alert("签单时间不能为空");
-			return false;
-		}else if($('#cpay').val().length==0){
-			alert("学费不能为空");
+		if($('#cpay').val().length==0){
+			alert("应缴金额不能为空");
 			return false;
 		}else if($('#chostel').val().length==0){
-			alert("住宿费不能为空");
+			alert("签单时间不能为空");
 			return false;
 		}else{
 			return true;
 		}
 		
 	}else {
-		alert("否按钮");
+//		alert("否按钮");
 		return true;
 	}
 	
@@ -53,11 +87,10 @@ function checkCoutomer(){
 function checkRadio(name,flag){
 	if(name.checked){
 		if(flag=="yes"){
-			//alert("你点击了是按钮");
-			//$("#paytime").show();
+			getsomeinfo("#ctype","#carea");
 			$("#payli").show();
 			$("#paymoney").show(); 
-			$("#payhostel").show(); 
+			$("#payhostel").show();
 		}else{
 			//alert("你点击了否");
 			$("#paytime").hide();
@@ -69,44 +102,68 @@ function checkRadio(name,flag){
 	
 }
 
-function checkCustomerStatus(part){
-	
-	
-	//alert("a2sd")
+function getsomeinfo(ct,ca){
+	var htmlContenttype = "";
+	var htmlContentarea = "";
+	$.ajax({
+		type : 'POST',
+		url : 'customer/getAllbustype.do',
+		dataType :'json',
+		async:false, //这是重要的一步，防止重复提交的
+		data : { "pageNum" : "" },
+		success : function(data) {
+			//alert(data);
+			for(var obj in data){
+				htmlContenttype += "<option value='"+data[obj].btid+"'>"+data[obj].btname+"</option>";
+			}
+		}
+		
+	});
+	$(ct).html(htmlContenttype);
+	$.ajax({
+		type : 'POST',
+		url : 'customer/getAllareaname.do',
+		dataType :'json',
+		async:false, //这是重要的一步，防止重复提交的
+		data : { "pageNum" : "" },
+		success : function(data) {
+			for(var obj in data){
+				htmlContentarea += "<option value='"+data[obj].aid+"'>"+data[obj].aname+"</option>";
+			}
+		}
+	});
+	$(ca).html(htmlContentarea);
+//	alert($(ca).html());
+}
+
+function typeandarea(){
+	getsomeinfo("#ctype1","#carea1")
+}
+function checkCustomerStatus(part,pageNum){
+	statuschange(2); 
 	var url="customer/selectCustomerStatus.do";
 	$.ajax({
 		type : 'POST',
 		url : url,
 		dataType :'json',
-		data : { "selectCustomerStatus" : "selectCustomerStatus" },
+		data : { "pageNum" : pageNum },
 		success : function(data) {
 			//alert(data);
-			var htmlContent = "<tr><th width='131'>姓名</th><th>电话</th><th>状态</th><th>操作</th></tr>";
+			var htmlContent = "<tr><th>姓名</th><th>电话</th><th>qq</th><th>状态</th><th>操作</th></tr>";
 			for(var obj in data){
-				htmlContent += "<tr><td>" + data[obj].uname + "</td>";
-				htmlContent += "<td>" +  data[obj].utel + "</td>";
-				if(data[obj].uid2==0 && data[obj].cif==""){
+				htmlContent += "<tr><td>" + data[obj].crname + "</td>";
+				htmlContent += "<td>" +  data[obj].crtel + "</td>";
+				htmlContent += "<td>" +  data[obj].cronline + "</td>";
+				if(data[obj].cid==""){
 					htmlContent += "<td>未签单</td>";
-					if(part==1){
-						htmlContent +="<td><a onclick='return delectsomeone()' href='customer/deleteOneCustomer.do?cuid="+data[obj].uid1+"'>删除</a>";
-						htmlContent +="&nbsp;&nbsp;&nbsp;&nbsp;<a href='customer/addcode.do?cuid="+data[obj].uid1+"&cuname="+data[obj].uname+"'>签单</a></td></tr>";
-					}else{
-						htmlContent +="<td></td></tr>";
-					}
-				}else if(data[obj].uid2!=0 && data[obj].cif==""){
+					htmlContent +="<td><a onclick='return delectsomeone()' href='customer/deleteOneCustomer.do?crid="+data[obj].crid+"'>删除</a>";
+					htmlContent +="&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='typeandarea()' href='customer/addcode.do?crid="+data[obj].crid+"&crname="+data[obj].crname+"'>签单</a></td></tr>";
+				}else if(data[obj].cid!=""){
 					htmlContent += "<td>已签单</td>";
-					if(part == 2){
-						htmlContent +="<td><a href='customer/cheques.do?cid="+data[obj].cid+"&uname="+data[obj].uname+"'>核对收款</a></td></tr>";
-					}else{
-						htmlContent +="<td></td></tr>";
-					}
-				}else if(data[obj].uid2!=0 && data[obj].cif!=""){
-					htmlContent += "<td>已付款</td>";
-					htmlContent +="<td></td></tr>";
+					htmlContent +="<td><a href='customer/cheques.do?cid="+data[obj].cid+"'>核对收款</a>&nbsp;&nbsp;<a href='customer/rebate.do?cid="+data[obj].cid+"'>退款</a></td></tr>";
 				}
 			}
 			$("#customerStatusTable").html(htmlContent);
-
 		}
 	});
 }
@@ -129,21 +186,19 @@ function customerByName(){
 			async:false,
 			data : { "cusName" : cusName },
 			success : function(data) {
-//				alert(data);
 				if(data!=null&&data.length!=0){
-					var htmlContent = "<tr><th>姓名</th><th>联系方式</th><th>签单交款</th><th>是否收款</th><th>一线销售</th><th>二线销售</th><th>部门</th></tr>";
+					var htmlContent = "<tr><th>姓名</th><th>电话</th><th>qq</th><th>是否签单</th><th>操作</th></tr>";
 					for(var obj in data){
-						var code = data[obj].code;
-						htmlContent +="<tr><td>"+data[obj].uname+"</td>";
-						htmlContent +="<td>"+data[obj].utel+"</td>";
-						if(code!=null){
-							htmlContent +="<td>学费："+code.cpay+" 住宿费："+code.chostel+"</td>";
-							htmlContent +="<td>"+code.cif+"时间为："+code.cctime+"</td>";
-							htmlContent +="<td>"+code.conesale+"</td>";
-							htmlContent +="<td>"+code.ctwosale+"</td>";
-							htmlContent +="<td>"+data[obj].dName+"</td></tr>";
-						}else{
-							htmlContent +="<td></td><td></td><td></td><td></td><td></td></tr>";
+						htmlContent += "<tr><td>" + data[obj].crname + "</td>";
+						htmlContent += "<td>" +  data[obj].crtel + "</td>";
+						htmlContent += "<td>" +  data[obj].cronline + "</td>";
+						if(data[obj].cid==""){
+							htmlContent += "<td>未签单</td>";
+							htmlContent +="<td><a onclick='return delectsomeone()' href='customer/deleteOneCustomer.do?crid="+data[obj].crid+"'>删除</a>";
+							htmlContent +="&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='typeandarea()' href='customer/addcode.do?crid="+data[obj].crid+"&crname="+data[obj].crname+"'>签单</a></td></tr>";
+						}else if(data[obj].cid!=""){
+							htmlContent += "<td>已签单</td>";
+							htmlContent +="<td><a href='customer/cheques.do?cid="+data[obj].cid+"'>核对收款</a>&nbsp;&nbsp;<a href='customer/rebate.do?cid="+data[obj].cid+"'>退款</a>&nbsp;&nbsp;<a href='customer/addcode.do?crid="+data[obj].crid+"&crname="+data[obj].crname+"'>再次签单</a></td></tr>";
 						}
 					}
 					//alert(htmlContent);
@@ -154,9 +209,10 @@ function customerByName(){
 				
 			}
 		});
-		
-		
 	}
 	
 }
-	
+
+function statuschange(status){
+	$("#statusLog").val(status);
+}

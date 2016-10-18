@@ -6,10 +6,25 @@
 		<setting name="logImpl" value="LOG4J"/>
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.icss.bean.Add_pers" alias="Add_pers"/>
+		<!-- <typeAlias type="com.icss.bean.Add_pers" alias="Add_pers"/>--> 
+		<typeAlias type="com.icss.bean.Empinfo" alias="Empinfo"/> 
+		<typeAlias type="com.icss.bean.Logininfo" alias="Logininfo"/> 
+		<typeAlias type="com.icss.bean.EmpPower" alias="EmpPower"/> 
+		<typeAlias type="com.icss.bean.PayCode" alias="PayCode"/> 
+		<typeAlias type="com.icss.bean.ViewEmpallinfo" alias="ViewEmpallinfo"/> 
+		<typeAlias type="com.icss.bean.Customerinfo" alias="Customerinfo"/> 
+		<typeAlias type="com.icss.bean.CusBusType" alias="CusBusType"/> 
+		<typeAlias type="com.icss.bean.CusArea" alias="CusArea"/> 
 		<typeAlias type="com.icss.bean.Department" alias="Department"/>
-		<typeAlias type="com.icss.bean.User_info" alias="User_info"/> 
-		<typeAlias type="com.icss.bean.Pay_code" alias="Pay_code"/> 
+		<typeAlias type="com.icss.bean.PayRecord" alias="Record"/>
+		<typeAlias type="com.icss.bean.ViewSigpayinfo" alias="ViewSigpayinfo"/>
+		<typeAlias type="com.icss.bean.PayType" alias="PayType"/>
+		<typeAlias type="com.icss.bean.PayRecord" alias="PayRecode"/>
+		<typeAlias type="com.icss.bean.Students" alias="Students"/>
+		<typeAlias type="com.icss.bean.Etcclass" alias="Etcclass"/>
+		<typeAlias type="com.icss.bean.User" alias="User"/>
+		<typeAlias type="com.icss.bean.UserRole" alias="UserRole"/>
+		<typeAlias type="com.icss.bean.ViewUserEmpallinfo" alias="ViewUserEmpallinfo"/>
 	</typeAliases>
 	
 	<!-- 分页插件配置  -->
@@ -45,9 +60,24 @@
 	</plugins>
 
 	<mappers>
-		<mapper resource="com/mybatis/mapper/Add_persMapper.xml"/>
+		<!-- <mapper resource="com/mybatis/mapper/Add_persMapper.xml"/> -->
+		<mapper resource="com/mybatis/mapper/EmpinfoMapper.xml"/>
+		<mapper resource="com/mybatis/mapper/PayCodeMapper.xml"/>
+		<mapper resource="com/mybatis/mapper/ViewEmpallinfoMapper.xml"/>
+		<mapper resource="com/mybatis/mapper/CustomerinfoMapper.xml"/>
+		<mapper resource="com/mybatis/mapper/CusAreaMapper.xml"/>
+		<mapper resource="com/mybatis/mapper/CusBusTypeMapper.xml"/>
 		<mapper resource="com/mybatis/mapper/DepartmentMapper.xml" />
-		<mapper resource="com/mybatis/mapper/User_infoMapper.xml"/>
-		<mapper resource="com/mybatis/mapper/Pay_codeMapper.xml"/>
+		<mapper resource="com/mybatis/mapper/EmpPowerMapper.xml" />
+		<mapper resource="com/mybatis/mapper/LogininfoMapper.xml" />
+		<mapper resource="com/mybatis/mapper/PayRecordMapper.xml" />
+		<mapper resource="com/mybatis/mapper/ViewSigpayinfoMapper.xml" />
+		<mapper resource="com/mybatis/mapper/PayTypeMapper.xml" />
+		<mapper resource="com/mybatis/mapper/PayRecordMapper.xml" />
+		<mapper resource="com/mybatis/mapper/StudentsMapper.xml" />
+		<mapper resource="com/mybatis/mapper/EtcclassMapper.xml" />
+		<mapper resource="com/mybatis/mapper/UserMapper.xml" />
+		<mapper resource="com/mybatis/mapper/ViewUserEmpallinfoMapper.xml" />
+		<mapper resource="com/mybatis/mapper/UserRoleMapper.xml" />
 	</mappers>
 </configuration>

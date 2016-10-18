@@ -5,22 +5,22 @@ function check_addSale(){
 	//此处是验证邮箱的正则表达式
 	var email = "^(([0-9a-zA-Z]+)|([0-9a-zA-Z]+[_.0-9a-zA-Z-]*[0-9a-zA-Z]+))@([a-zA-Z0-9-]+[.])+([a-zA-Z]{2}|net|NET|com|COM|gov|GOV|mil|MIL|org|ORG|edu|EDU|int|INT)$"
 	var re_email = new RegExp(email);
-	if(!/^1\d{10}$/g.test($('#pTel').val())){
+	if(!/^1\d{10}$/g.test($('#etel').val())){
 		alert("电话号码格式错误");
 		$('#pTel').focus();
 		$('#pTel').select();
 		return false;
-	}else if(!re_email.test($('#pPos').val())){
+	}else if(!re_email.test($('#email').val())){
 		alert ("请输入有效合法的E-mail地址 ！");
 		$('#pPos').focus();
 		$('#pPos').select();
 		return false;
-	}else if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test($('#pCardid').val())){
+	}else if(!/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/.test($('#ecardid').val())){
 		alert("身份证号码有误");
 		$('#pCardid').focus();
 		$('#pCardid').select();
 		return false;
-	}else if($('#pName').val().length!=0 ){
+	}else if($('#ename').val().length!=0 ){
 		alert("新增员工成功！")
 		return true;
 	}else {
@@ -47,6 +47,26 @@ function check_addDept(){
 	return false;
 }
 
+function getdeptinfo(){
+	var htmlcontext = "";
+	$.ajax({
+		type : 'POST',
+		url : 'dept/getDeptInfo.do',
+		dataType :'json',
+		data : { "tablename" : "department" },
+		success : function(data) {
+			$.each(data,function(i,p){
+				if(p.did== 1){
+					htmlcontext += "<option selected value='"+p.did+"'>"+p.dname+"</option>";
+				}else{
+					htmlcontext += "<option value='"+p.did+"'>"+p.dName+"</option>";
+				}
+			});
+		}
+	});
+	$("#dept").html(htmlcontext);
+}
+
 function loadDepartmentInfo(){
 	//alert("点击了新增员工超连接")
 	var url="dept/selectDeptInfo.do";
@@ -61,7 +81,6 @@ function loadDepartmentInfo(){
 		}
 	});
 }
-
 
 function checkDeptno(){
 	//alert("这里用于部门编号的检查");
@@ -146,6 +165,73 @@ function checkPerName(){
 		return false;
 	}
 
+}
+
+function superp(){
+	var url ="emp/selectsuper.do";
+	$.ajax({
+		type : 'POST',
+		url : url,
+		dataType :'text',
+		data : { "did" : $("#pDepartment").val() },
+		async:false, //这是重要的一步，防止重复提交的
+		success : function(data) {
+			if(data.length!=0){
+				$("#superiorid").html(data);
+			}
+		}
+	});
+}
+
+
+function supera(){
+	var url ="../emp/selectsuper.do";
+	$.ajax({
+		type : 'POST',
+		url : url,
+		dataType :'text',
+		data : { "did" : $("#deptselect").val() },
+		async:false, //这是重要的一步，防止重复提交的
+		success : function(data) {
+			if(data.length!=0){
+				$("#superio").html(data);
+			}
+		}
+	});
+}
+
+function selectempinfo(){
+	var htmlcontext="";
+	var ename =  $("#textInput").val();
+	if(ename!=null){
+		$.ajax({
+			type : 'POST',
+			url : 'empinfo/selectempbyname.do',
+			dataType :'json',
+			async:false, //这是重要的一步，防止重复提交的
+			data : { "ename" : ename ,"pagenum" : "1"},
+			success : function(data) {
+				if(data.length>0){
+					htmlcontext+="<tr><th>员工姓名</th><th>入职时间</th><th>员工部门</th><th>员工职业</th><th>员工手机</th><th>员工邮箱</th><th>直属上级</th><th>操作</th></tr>";
+					$.each(data,function(i,p){
+						htmlcontext +="<tr><td>"+p.ename+"</td>";
+						htmlcontext +="<td>"+p.entrytime+"</td>";
+						htmlcontext +="<td>"+p.dname+"</td>";
+						htmlcontext +="<td>"+p.ejob+"</td>";
+						htmlcontext +="<td>"+p.etel+"</td>";
+						htmlcontext +="<td>"+p.email+"</td>";
+						htmlcontext +="<td>"+p.dremark+"</td>";
+						htmlcontext +="<td><a href='emp/selectByid.do?eid="+p.eid+"'>修改</a></td></tr>";
+					});
+//					alert(htmlcontext);
+					$("#selectemptable").html(htmlcontext);
+				}else{
+					$("#selectemptable").html("<tr><td><font color='red'>没有查到相关学生信息！</font></td></tr>");
+				}
+			}
+		});
+	}
+	
 }
 
 
